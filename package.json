@@ -1,6 +1,6 @@
 {
-  "name": "vuejs-datepicker",
-  "version": "1.6.2",
+  "name": "@louvki/vuejs-datepicker",
+  "version": "1.6.4",
   "description": "A simple Vue.js datepicker component. Supports disabling of dates, inline mode, translations",
   "keywords": [
     "vue",
@@ -12,8 +12,8 @@
   "module": "dist/vuejs-datepicker.esm.js",
   "unpkg": "dist/vuejs-datepicker.min.js",
   "files": [
-    "src",
-    "dist"
+    "dist",
+    "src"
   ],
   "author": "Charlie Kassel <ck@charliekassel.com>",
   "repository": {
