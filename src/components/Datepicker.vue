@@ -26,7 +26,9 @@
       @closeCalendar="close"
       @typedDate="setTypedDate"
       @clearDate="clearDate">
-      <slot name="afterDateInput" slot="afterDateInput"></slot>
+      <template #afterDateInput>
+        <slot name="afterDateInput"></slot>
+      </template>
     </date-input>
 
 
@@ -52,7 +54,9 @@
       @selectDate="selectDate"
       @showMonthCalendar="showMonthCalendar"
       @selectedDisabled="selectDisabledDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <template #beforeCalendarHeader>
+        <slot name="beforeCalendarHeader"></slot>
+      </template>
     </picker-day>
 
     <!-- Month View -->
@@ -71,7 +75,9 @@
       @selectMonth="selectMonth"
       @showYearCalendar="showYearCalendar"
       @changedYear="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <template #beforeCalendarHeader>
+        <slot name="beforeCalendarHeader"></slot>
+      </template>
     </picker-month>
 
     <!-- Year View -->
@@ -89,7 +95,9 @@
       :use-utc="useUtc"
       @selectYear="selectYear"
       @changedDecade="setPageDate">
-      <slot name="beforeCalendarHeader" slot="beforeCalendarHeader"></slot>
+      <template #beforeCalendarHeader>
+        <slot name="beforeCalendarHeader"></slot>
+      </template>
     </picker-year>
   </div>
 </template>
@@ -101,6 +109,7 @@ import PickerMonth from './PickerMonth.vue'
 import PickerYear from './PickerYear.vue'
 import utils, { makeDateUtils } from '../utils/DateUtils'
 export default {
+  emits: ['selected', 'input', 'update:modelValue', 'cleared', 'changedMonth', 'changedYear', 'selectedDisabled', 'closed'],
   components: {
     DateInput,
     PickerDay,
@@ -108,6 +117,9 @@ export default {
     PickerYear
   },
   props: {
+    modelValue: {
+      validator: val => utils.validateDateInput(val)
+    },
     value: {
       validator: val => utils.validateDateInput(val)
     },
@@ -187,6 +199,9 @@ export default {
     }
   },
   watch: {
+    modelValue (value) {
+      this.setValue(value)
+    },
     value (value) {
       this.setValue(value)
     },
@@ -332,6 +347,7 @@ export default {
       this.setPageDate(date)
       this.$emit('selected', date)
       this.$emit('input', date)
+      this.$emit('update:modelValue', date)
     },
     /**
      * Clear the selected date
@@ -341,6 +357,7 @@ export default {
       this.setPageDate()
       this.$emit('selected', null)
       this.$emit('input', null)
+      this.$emit('update:modelValue', null)
       this.$emit('cleared')
     },
     /**
@@ -445,8 +462,9 @@ export default {
      * Initiate the component
      */
     init () {
-      if (this.value) {
-        this.setValue(this.value)
+      const initialValue = this.modelValue !== undefined ? this.modelValue : this.value
+      if (initialValue) {
+        this.setValue(initialValue)
       }
       if (this.isInline) {
         this.setInitialView()

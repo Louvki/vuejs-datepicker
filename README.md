@@ -5,7 +5,7 @@
 [![Coveralls github](https://img.shields.io/coveralls/github/charliekassel/vuejs-datepicker.svg)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
 [![Downloads](https://img.shields.io/npm/dm/vuejs-datepicker.svg)](https://www.npmjs.com/package/vuejs-datepicker)
 
-A datepicker Vue component. Compatible with Vue 2.x
+A datepicker Vue component. Compatible with Vue 3.x
 
 - [Demo](#demo)
 - [Install](#install)
@@ -53,12 +53,12 @@ Or use directly from a CDN
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/vuejs-datepicker"></script>
 <script>
-const app = new Vue({
-  el: '#app',
+const app = Vue.createApp({
   components: {
-  	vuejsDatepicker
+    vuejsDatepicker
   }
 })
+app.mount('#app')
 </script>
 
 <!-- French language example -->
@@ -69,8 +69,7 @@ const app = new Vue({
 <script src="https://unpkg.com/vuejs-datepicker"></script>
 <script src="https://unpkg.com/vuejs-datepicker/dist/locale/translations/fr.js"></script>
 <script>
-const app = new Vue({
-  el: '#app',
+const app = Vue.createApp({
   data() {
     return {
       fr: vdp_translation_fr.js
@@ -80,6 +79,7 @@ const app = new Vue({
   	vuejsDatepicker
   }
 })
+app.mount('#app')
 </script>
 ```
 
@@ -288,9 +288,11 @@ An example would be to use bootstrap's `input-group-prepend` and `input-group-ap
 to show some custom text:
 ``` html
 <datepicker :bootstrap-styling="true">
-  <div slot="beforeCalendarHeader" class="calender-header">
+  <template #beforeCalendarHeader>
+    <div class="calender-header">
     Choose a Date
-  </div>
+    </div>
+  </template>
 </datepicker>
 ```
 
@@ -301,9 +303,11 @@ To implement some custom styling (for instance to add an animated placeholder) o
 
 ``` html
 <datepicker>
-  <span slot="afterDateInput" class="animated-placeholder">
-    Choose a Date
-  </span>
+  <template #afterDateInput>
+    <span class="animated-placeholder">
+      Choose a Date
+    </span>
+  </template>
 </datepicker>
 ```
 

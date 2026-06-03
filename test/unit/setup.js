@@ -1,3 +1,1 @@
-import Vue from 'vue'
-
-Vue.config.productionTip = false
+// Test setup placeholder for Jest.
